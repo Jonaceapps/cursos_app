@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     use HasFactory;
-    /*public function cursos(){
-    return $this->belongsToMany(Curso::class, 'cursos_usuarios', 'id', 'id');
-    }*/
+    protected $hidden = ['updated_at', 'created_at', 'pass', 'activo','foto'];
+    public function cursos(){
+    return $this->belongsToMany(Curso::class,'cursos_usuarios');
+    }
+    
+   
 }

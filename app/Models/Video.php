@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Video extends Model
 {
     use HasFactory;
+    protected $hidden = ['updated_at', 'created_at','visto'];
+    public function curso(){
+        return $this->belongsTo(Curso::class);
+    }
 }
