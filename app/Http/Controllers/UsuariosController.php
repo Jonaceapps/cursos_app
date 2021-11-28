@@ -112,6 +112,7 @@ class UsuariosController extends Controller
     }
     // 5. Los usuarios podrán adquirir cursos. Cuando se registre esta solicitud 
     // de adquisición, el curso queda asociado al usuario de forma indefinida.
+
     public function adquirir_curso($id,$id_curso){
 
         $respuesta = ["status" => 1, "msg" => ""];
@@ -135,6 +136,7 @@ class UsuariosController extends Controller
     
     // 6. Los usuarios deberán poder ver un listado de cursos específico 
     //    que muestre únicamente aquellos que han adquirido.
+
     public function ver_cursos($id){
 
         $respuesta = ["status" => 1, "msg" => ""];
@@ -162,6 +164,7 @@ class UsuariosController extends Controller
     }
     // 7. Los usuarios pueden obtener el listado de vídeos de un curso, con su nombre y foto, y un indicador de si ya ha visto el vídeo o no. Esta información solo estará disponible si han adquirido el curso previamente. 
     // Cualquier intento de obtener estos datos sin haber comprado el curso debe devolver un error.
+    
     public function ver_videos_curso($id_usuario,$id_curso){
 
         $respuesta = ["status" => 1, "msg" => ""];
@@ -201,6 +204,9 @@ class UsuariosController extends Controller
 
     }
 
+    // 8. Si un usuario tiene un curso adquirido, entonces podrá realizar peticiones para ver los vídeos obteniendo su ID y enlace. 
+    // Cuando esta petición se realiza, el vídeo queda registrado como "visto" para ese usuario.
+
     public function ver_video($id_usuario,$id_curso,$id_video){
 
         $respuesta = ["status" => 1, "msg" => ""];
@@ -212,7 +218,6 @@ class UsuariosController extends Controller
         if ($usuario && $curso && $video){
 
             try {
-
                 $cursos = DB::table('usuarios')
                 ->join('cursos_usuarios','cursos_usuarios.usuario_id','usuarios.id')
                 ->join('cursos','cursos.id','cursos_usuarios.curso_id')
@@ -233,8 +238,6 @@ class UsuariosController extends Controller
                 }else{
                     $respuesta["msg"] = "Este usuario no dispone del curso solicitado o el video no ha sido encontrado";
                 }
-                
-
             }catch (\Exception $e) {
                 $respuesta["status"] = 0;
                 $respuesta["msg"] = "Se ha producido un error".$e->getMessage();  
